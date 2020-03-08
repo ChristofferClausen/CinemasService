@@ -3,6 +3,7 @@ package com.iths.christoffer.restlabb;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -16,7 +17,7 @@ import java.net.http.HttpClient;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-//@EnableEurekaClient
+@EnableEurekaClient
 @RestController
 @Slf4j
 @RequestMapping("/api/v1/cinemas")
@@ -49,7 +50,7 @@ public class CinemasController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/admin")
+    @PostMapping
     public ResponseEntity<EntityModel<Cinema>> createCinema(@RequestBody Cinema cinema) {
         log.info("Called: createCinema()");
         var c = repository.save(cinema);
@@ -59,7 +60,7 @@ public class CinemasController {
         return new ResponseEntity<>(assembler.toModel(c), headers, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/admin/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<EntityModel<Cinema>> updateCinema(@RequestBody Cinema newCinema, @PathVariable long id) {
         log.info("Called: updateCinema()");
         return repository.findById(id).map(c -> {
@@ -80,7 +81,7 @@ public class CinemasController {
         });
     }
 
-    @PutMapping("/admin/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<EntityModel<Cinema>> replaceCinema(@RequestBody Cinema newCinema, @PathVariable long id) {
         log.info("Called: replaceCinema()");
         return repository.findById(id).map(c -> {
@@ -96,7 +97,7 @@ public class CinemasController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCinema(@PathVariable long id) {
         log.info("Called: deleteCinema");
         if (repository.existsById(id)) {
