@@ -1,12 +1,10 @@
 package com.iths.christoffer.restlabb;
 
-import lombok.Data;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
